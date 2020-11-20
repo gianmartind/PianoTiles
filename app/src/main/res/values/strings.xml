@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Piano Tiles</string>
+    <string name="fragment_home">Piano Tiles</string>
+    <string name="btn_home">Start</string>
 </resources>
