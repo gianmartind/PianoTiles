@@ -4,4 +4,5 @@
     <string name="btn_home">Start</string>
     <string name="pause">PAUSE</string>
     <string name="default_score">Score: </string>
+    <string name="high_score">High Score:</string>
 </resources>
