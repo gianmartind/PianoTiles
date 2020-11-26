@@ -41,4 +41,5 @@ public class MainActivity extends AppCompatActivity implements FragmentListener{
     public void closeApplication() {
 
     }
+
 }

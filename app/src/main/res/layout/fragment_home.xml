@@ -18,4 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_home"/>
+
+    <Button
+        android:id="@+id/btn_high_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Score"/>
+
 </LinearLayout>
