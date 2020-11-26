@@ -8,56 +8,64 @@ public class MainThread extends Thread{
     protected int pos;
     protected PointF viewSize;
     protected PointF start;
-    protected PointF end;
 
     protected boolean isClicked;
-
+    protected boolean isOver;
 
     public MainThread(ThreadHandler threadHandler, int pos, PointF viewSize){
         this.threadHandler = threadHandler;
         this.pos = pos;
         this.viewSize = viewSize;
         this.isClicked = false;
+        this.isOver = false;
         this.start = new PointF();
-        this.end = new PointF();
         this.setPoint();
     }
 
     public void setPoint(){
         if(this.pos == 1){
-            this.start.set(0, -40);
-            this.end.set(this.viewSize.x/4, 0);
+            this.start.set(0, -this.viewSize.y/12);
         } else if(this.pos == 2){
-            this.start.set(this.viewSize.x/4, -40);
-            this.end.set(this.viewSize.x/2, 0);
+            this.start.set(this.viewSize.x/4, -this.viewSize.y/12);
         } else if(this.pos == 3){
-            this.start.set(this.viewSize.x/2, -40);
-            this.end.set(this.viewSize.x/4*3, 0);
+            this.start.set(this.viewSize.x/2, -this.viewSize.y/12);
         } else if(this.pos == 4){
-            this.start.set(this.viewSize.x/4*3, -40);
-            this.end.set(this.viewSize.x, 0);
+            this.start.set(this.viewSize.x/4*3, -this.viewSize.y/12);
         }
     }
 
     public void run(){
-
-        while(check()){
-            Log.d("TAG", "run: ");
+        Log.d("TAG", "run: " + -this.viewSize.y/12 + " " + this.viewSize.y/1200);
+        while(check(this.start.y)){
             try {
-                Thread.sleep(100);
+                Thread.sleep(16);
+                threadHandler.clearRect(new PointF(this.start.x, this.start.y));
+                this.start.set(this.start.x, this.start.y+this.viewSize.y/150);
+                threadHandler.drawRect(new PointF(this.start.x, this.start.y), this.isClicked);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            this.threadHandler.clearRect(new RectPoint(this.start, this.end));
-            this.start.y += 10;
-            this.end.y += 10;
-            this.threadHandler.drawRect(new RectPoint(this.start, this.end));
+        }
+        threadHandler.popOut();
+        if(!this.isClicked){
+            threadHandler.removeHealth();
         }
         return;
     }
 
-    public boolean check(){
-        if(this.start.y >= this.viewSize.y){
+    public void checkScore(PointF tap){
+        if(this.isClicked) return;
+        if(tap.x >= this.start.x && tap.x <= this.start.x + this.viewSize.x/4){
+            if(tap.y >= this.start.y && tap.y <= this.start.y + this.viewSize.y/4){
+                threadHandler.addScore();
+                threadHandler.clearRect(new PointF(this.start.x, this.start.y));
+                this.isClicked = true;
+            }
+        }
+    }
+
+    public boolean check(float y){
+        if(y >= this.viewSize.y){
             return false;
         }
         return true;
