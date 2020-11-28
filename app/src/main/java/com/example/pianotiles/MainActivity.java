@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener{
     ActivityMainBinding bind;
     FragmentManager fragmentManager;
     MainFragment mainFragment;
+    GameoverFragment gameoverFragment;
+    HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +24,30 @@ public class MainActivity extends AppCompatActivity implements FragmentListener{
         setContentView(view);
 
         this.fragmentManager = this.getSupportFragmentManager();
+        this.homeFragment = new HomeFragment();
         this.mainFragment = new MainFragment();
+        this.gameoverFragment = GameoverFragment.newInstance(0);
 
-        changePage(1);
+        changePage(0);
 
     }
 
     @Override
     public void changePage(int i) {
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
-        if(i == 1) {
+        if(i == 0){
+            ft.replace(R.id.fragment_container, this.homeFragment).addToBackStack(null);
+        } else if(i == 1) {
             ft.replace(R.id.fragment_container, this.mainFragment).addToBackStack(null);
+        } else if(i == 2){
+            ft.replace(R.id.fragment_container, this.gameoverFragment).addToBackStack(null);
         }
         ft.commit();
+    }
+
+    @Override
+    public void setScore(int score) {
+        this.gameoverFragment = GameoverFragment.newInstance(score);
     }
 
     @Override

@@ -75,9 +75,7 @@ public class MainFragmentPresenter {
         this.ui.updateCanvas(this.canvas);
     }
 
-    public void test(){
-        Random random = new Random();
-        int pos = random.nextInt(4) + 1;
+    public void generate(int pos){
         MainThread newThread = new MainThread(this.threadHandler, pos, this.viewSize);
         newThread.start();
         this.threads.addLast(newThread);
@@ -89,12 +87,12 @@ public class MainFragmentPresenter {
 
     public void checkScore(PointF tap){
         for(int i = 0; i < this.threads.size(); i++){
-            this.threads.get(i).checkScore(tap);
+           this.threads.get(i).checkScore(tap);
         }
     }
 
     public void popOut(){
-        Log.d("TAG", "popOut: " + this.threads.size());
+        //Log.d("TAG", "popOut: " + this.threads.size() + " " + this.inc);
         this.threads.removeFirst();
     }
 
@@ -107,6 +105,7 @@ public class MainFragmentPresenter {
         this.health--;
         if(this.health == 0){
             this.playThread.stopThread();
+            this.ui.gameOver(this.score);
         }
         this.ui.updateHealth(this.health);
     }
@@ -116,5 +115,6 @@ public class MainFragmentPresenter {
         void initiateCanvas(Bitmap bitmap, Canvas canvas);
         void updateScore(int score);
         void updateHealth(int health);
+        void gameOver(int score);
     }
 }

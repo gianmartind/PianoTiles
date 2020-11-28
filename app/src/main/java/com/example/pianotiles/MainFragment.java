@@ -1,5 +1,6 @@
 package com.example.pianotiles;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -22,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import java.util.Random;
 
 public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener {
+    FragmentListener fragmentListener;
     MainFragmentPresenter mainFragmentPresenter;
     Button startButton;
     ImageView ivCanvas;
@@ -49,6 +51,15 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         return view;
     }
 
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof FragmentListener){
+            this.fragmentListener = (FragmentListener) context;
+        } else{
+            throw new ClassCastException(context.toString() + " must implement FragmentListener");
+        }
+    }
+
     @Override
     public void updateCanvas(Canvas canvas) {
         this.canvas = canvas;
@@ -69,7 +80,15 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
 
     @Override
     public void updateHealth(int health) {
-        this.health.setText(Integer.toString(health));
+        if(health > 0){
+            this.health.setText(Integer.toString(health));
+        }
+    }
+
+    @Override
+    public void gameOver(int score) {
+        this.fragmentListener.setScore(score);
+        this.fragmentListener.changePage(2);
     }
 
     @Override
@@ -77,6 +96,9 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         if(!this.initiated){
             this.mainFragmentPresenter.initiateCanvas(this.ivCanvas);
             this.startButton.setText("STOP");
+            this.startButton.setVisibility(View.INVISIBLE);
+            this.score.setVisibility(View.VISIBLE);
+            this.health.setVisibility(View.VISIBLE);
             this.initiated = true;
         } else {
             this.mainFragmentPresenter.stop();

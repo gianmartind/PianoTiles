@@ -24,31 +24,30 @@ public class MainThread extends Thread{
 
     public void setPoint(){
         if(this.pos == 1){
-            this.start.set(0, -this.viewSize.y/12);
+            this.start.set(0, -this.viewSize.y/4);
         } else if(this.pos == 2){
-            this.start.set(this.viewSize.x/4, -this.viewSize.y/12);
+            this.start.set(this.viewSize.x/4, -this.viewSize.y/4);
         } else if(this.pos == 3){
-            this.start.set(this.viewSize.x/2, -this.viewSize.y/12);
+            this.start.set(this.viewSize.x/2, -this.viewSize.y/4);
         } else if(this.pos == 4){
-            this.start.set(this.viewSize.x/4*3, -this.viewSize.y/12);
+            this.start.set(this.viewSize.x/4*3, -this.viewSize.y/4);
         }
     }
 
     public void run(){
-        Log.d("TAG", "run: " + -this.viewSize.y/12 + " " + this.viewSize.y/1200);
         while(check(this.start.y)){
             try {
                 Thread.sleep(16);
-                threadHandler.clearRect(new PointF(this.start.x, this.start.y));
+                this.threadHandler.clearRect(new PointF(this.start.x, this.start.y));
                 this.start.set(this.start.x, this.start.y+this.viewSize.y/150);
-                threadHandler.drawRect(new PointF(this.start.x, this.start.y), this.isClicked);
+                this.threadHandler.drawRect(new PointF(this.start.x, this.start.y), this.isClicked);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        threadHandler.popOut();
+        this.threadHandler.popOut();
         if(!this.isClicked){
-            threadHandler.removeHealth();
+            this.threadHandler.removeHealth();
         }
         return;
     }
@@ -57,8 +56,8 @@ public class MainThread extends Thread{
         if(this.isClicked) return;
         if(tap.x >= this.start.x && tap.x <= this.start.x + this.viewSize.x/4){
             if(tap.y >= this.start.y && tap.y <= this.start.y + this.viewSize.y/4){
-                threadHandler.addScore();
-                threadHandler.clearRect(new PointF(this.start.x, this.start.y));
+                this.threadHandler.addScore();
+                this.threadHandler.clearRect(new PointF(this.start.x, this.start.y));
                 this.isClicked = true;
             }
         }

@@ -34,7 +34,8 @@ public class ThreadHandler extends Handler {
         } else if(msg.what == ThreadHandler.POP_OUT){
             this.mainFragmentPresenter.popOut();
         } else if(msg.what == ThreadHandler.GENERATE){
-            this.mainFragmentPresenter.test();
+            int param = (int) msg.obj;
+            this.mainFragmentPresenter.generate(param);
         } else if(msg.what == ThreadHandler.REMOVE_HEALTH){
             this.mainFragmentPresenter.removeHealth();
         }
@@ -73,9 +74,10 @@ public class ThreadHandler extends Handler {
         this.sendMessage(msg);
     }
 
-    public void generate(){
+    public void generate(int pos){
         Message msg = new Message();
         msg.what = ThreadHandler.GENERATE;
+        msg.obj = pos;
         this.sendMessage(msg);
     }
 }
