@@ -51,7 +51,20 @@
             android:textSize="16sp"
             android:fontFamily="@font/montserrat"/>
 
+        <android.widget.Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_margin="10px"
+            android:id="@+id/save_name"
+            android:text="@string/save_name"
+            android:background="@drawable/custom_button"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@color/white"
+            android:fontFamily="@font/fredoka_one"/>
+
+
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="60dp"/>

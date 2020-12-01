@@ -13,4 +13,5 @@
     <string name="name_hint">player name</string>
     <string name="save">SAVE</string>
     <string name="enter_name">Enter your name</string>
+    <string name="save_name">Save Name</string>
 </resources>
