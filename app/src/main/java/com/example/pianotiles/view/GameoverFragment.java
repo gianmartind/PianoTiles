@@ -21,10 +21,11 @@ import com.example.pianotiles.presenter.GameoverFragmentPresenter;
 public class GameoverFragment extends Fragment implements GameoverFragmentPresenter.IGameoverFragment, View.OnClickListener {
     FragmentListener fragmentListener;
     TextView score;
-    Button playAgain, backMenu;
+    Button playAgain, backMenu, saveButton;
     EditText playerName;
     GameoverFragmentPresenter gameoverFragmentPresenter;
     DBHandler db;
+    CustomToast toast;
 
     public GameoverFragment(){}
 
@@ -32,17 +33,20 @@ public class GameoverFragment extends Fragment implements GameoverFragmentPresen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gameover, container, false);
-
+        View toastView = inflater.inflate(R.layout.custom_toast, container, false);
+        this.toast = new CustomToast(toastView, getActivity().getApplicationContext());
         this.score = view.findViewById(R.id.score);
         this.playAgain = view.findViewById(R.id.play_again);
         this.backMenu = view.findViewById(R.id.back_menu);
         this.playerName = view.findViewById(R.id.player_name);
+        this.saveButton = view.findViewById(R.id.save_name);
 
         this.db = new DBHandler(this.getActivity());
-        this.gameoverFragmentPresenter = new GameoverFragmentPresenter(this.getArguments().getInt("score", 0), this, this.db);
+        this.gameoverFragmentPresenter = new GameoverFragmentPresenter(this.getArguments().getInt("score", 0), this, this.db, this.toast);
 
         this.playAgain.setOnClickListener(this);
         this.backMenu.setOnClickListener(this);
+        this.saveButton.setOnClickListener(this);
 
         this.gameoverFragmentPresenter.loadData();
 
@@ -85,6 +89,9 @@ public class GameoverFragment extends Fragment implements GameoverFragmentPresen
             this.gameoverFragmentPresenter.playAgain(playerName);
         } else if(v == this.backMenu){
             this.gameoverFragmentPresenter.backToMenu(playerName);
+        } else if(v == this.saveButton){
+            this.gameoverFragmentPresenter.saveScore(playerName);
+            this.saveButton.setEnabled(false);
         }
     }
 }

@@ -29,16 +29,17 @@ public class SensorThread extends Thread{
                 e.printStackTrace();
             }
         }
+        this.threadHandler.removeHealth();
         return;
     }
 
     public boolean checkValid(){
         if(this.isLeft){
-            if(azimuth < -0.8f){
+            if(azimuth < -0.6f){
                 return true;
             }
         } else if(!this.isLeft){
-            if(this.azimuth > 0.8f){
+            if(this.azimuth > 0.6f){
                 return true;
             }
         }

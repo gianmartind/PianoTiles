@@ -77,6 +77,7 @@ public class MainFragmentPresenter {
         this.playThread = new PlayThread(new PointF(ivCanvas.getWidth(), ivCanvas.getHeight()), this.threadHandler);
         this.playThread.start();
 
+        this.ui.registerSensor();
         Log.d("TAG", "initiateCanvas: " + this.viewSize.y);
     }
 
@@ -104,7 +105,6 @@ public class MainFragmentPresenter {
             sensorThread.start();
             this.sensorThreads.addLast(sensorThread);
             this.toast.show();
-            this.ui.registerSensor();
         }
         else if(pos == 6){
             this.toast.setText("Tilt Right!");
@@ -112,7 +112,6 @@ public class MainFragmentPresenter {
             sensorThread.start();
             this.sensorThreads.addLast(sensorThread);
             this.toast.show();
-            this.ui.registerSensor();
         }
     }
 
@@ -148,6 +147,7 @@ public class MainFragmentPresenter {
     public void addSensorScore(){
         this.score++;
         this.ui.updateScore(this.score);
+        //this.ui.unregisterSensor();
     }
 
     public void removeHealth(){

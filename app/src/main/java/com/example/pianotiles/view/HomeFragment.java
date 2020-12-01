@@ -20,6 +20,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     Button startGame, highScore;
     CustomToast toast;
     FragmentListener fragmentListener;
+    MediaPlayer song;
 
     public HomeFragment(){}
 
@@ -35,8 +36,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.startGame.setOnClickListener(this);
         this.highScore.setOnClickListener(this);
 
-        MediaPlayer song = MediaPlayer.create(getActivity(),R.raw.canon);
-        song.start();
+        this.song = MediaPlayer.create(getActivity(),R.raw.canon);
+
+        //this.song.setLooping(true);
         return view;
     }
 
@@ -47,6 +49,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         } else{
             throw new ClassCastException(context.toString() + " must implement FragmentListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.song.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.song.stop();
     }
 
     @Override

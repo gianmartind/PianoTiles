@@ -130,15 +130,10 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         if(v == this.startButton){
             if(!this.initiated){
                 this.mainFragmentPresenter.initiateCanvas(this.ivCanvas);
-                this.startButton.setText("STOP");
                 this.startButton.setVisibility(View.INVISIBLE);
                 this.score.setVisibility(View.VISIBLE);
                 this.health.setVisibility(View.VISIBLE);
                 this.initiated = true;
-            } else {
-                this.mainFragmentPresenter.stop();
-                this.startButton.setText("START");
-                this.initiated = false;
             }
         } else if(v == this.health){
             this.mainFragmentPresenter.removeHealth();
@@ -174,7 +169,6 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         float azimuth = orientationAngles[0];
         //float pitch = orientationAngles[1];
         //float roll = orientationAngles[2];
-        //Log.d("TAG", "onSensorChanged: " + azimuth);
         this.mainFragmentPresenter.checkSensor(azimuth);
     }
 
