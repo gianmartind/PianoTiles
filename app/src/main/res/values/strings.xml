@@ -4,7 +4,7 @@
     <string name="btn_home">PLAY</string>
     <string name="pause">PAUSE</string>
     <string name="default_score">Score: </string>
-    <string name="high_score">High Score:</string>
+    <string name="high_score">High Score</string>
     <string name="gameover">GAME OVER</string>
     <string name="score">Your Score: </string>
     <string name="playagain">Play Again</string>
