@@ -7,11 +7,33 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/isi_list_high_score"
+        android:id="@+id/isi_nama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:paddingTop="2dp"/>
+        android:paddingTop="2dp"
+        android:text="Nama: "/>
+
+
+    <TextView
+        android:id="@+id/isi_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:paddingTop="2dp"
+        android:text="Score: "/>
+
+
+    <TextView
+        android:id="@+id/isi_waktu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:paddingTop="2dp"
+        android:text="Time: "/>
+
 
 </LinearLayout>
