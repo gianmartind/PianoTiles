@@ -54,8 +54,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if(v == this.startGame){
             this.fragmentListener.changePage(1);
         } else if(v == this.highScore){
-            this.toast.setToast("High Score", Toast.LENGTH_SHORT);
-            this.toast.show();
+            this.fragmentListener.changePage(3);
         }
     }
 }

@@ -80,7 +80,7 @@ public class GameoverFragment extends Fragment implements GameoverFragmentPresen
 
     @Override
     public void onClick(View v) {
-        String playerName = this.playerName.getText().toString();
+        String playerName = this.playerName.getText().toString().equals("") ? "Player" : this.playerName.getText().toString();
         if(v == this.playAgain){
             this.gameoverFragmentPresenter.playAgain(playerName);
         } else if(v == this.backMenu){

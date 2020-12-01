@@ -4,7 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +26,7 @@ import com.example.pianotiles.FragmentListener;
 import com.example.pianotiles.R;
 import com.example.pianotiles.presenter.MainFragmentPresenter;
 
-public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener {
+public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener, SensorEventListener {
     FragmentListener fragmentListener;
     MainFragmentPresenter mainFragmentPresenter;
     Button startButton;
@@ -31,6 +36,9 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     Button score, health;
     Boolean initiated;
     CustomToast toast;
+    SensorManager sensorManager;
+    Sensor accelerometer, magnetometer;
+    float[] accelerometerReading, magnetometerReading;
 
     public MainFragment(){}
 
@@ -52,6 +60,13 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         this.mainFragmentPresenter = new MainFragmentPresenter(this, this.toast);
 
         this.initiated = false;
+
+        this.sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        this.accelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        this.magnetometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        this.accelerometerReading = new float[3];
+        this.magnetometerReading = new float[3];
         return view;
     }
 
@@ -96,6 +111,21 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     }
 
     @Override
+    public void registerSensor() {
+        if(this.accelerometer != null){
+            this.sensorManager.registerListener(this, this.accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        if(this.magnetometer != null){
+            this.sensorManager.registerListener(this, this.magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    @Override
+    public void unregisterSensor() {
+        this.sensorManager.unregisterListener(this);
+    }
+
+    @Override
     public void onClick(View v) {
         if(v == this.startButton){
             if(!this.initiated){
@@ -121,5 +151,35 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     public boolean onTouch(View v, MotionEvent event) {
         this.mainFragmentPresenter.checkScore(new PointF(event.getX(), event.getY()));
         return true;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        int sensorType = event.sensor.getType();
+        switch (sensorType){
+            case Sensor.TYPE_ACCELEROMETER:
+                this.accelerometerReading = event.values.clone();
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                this.magnetometerReading = event.values.clone();
+                break;
+        }
+
+        final float[] rotationMatrix = new float[9];
+        this.sensorManager.getRotationMatrix(rotationMatrix, null, this.accelerometerReading, this.magnetometerReading);
+
+        final float[] orientationAngles = new float[3];
+        this.sensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+        float azimuth = orientationAngles[0];
+        //float pitch = orientationAngles[1];
+        //float roll = orientationAngles[2];
+        //Log.d("TAG", "onSensorChanged: " + azimuth);
+        this.mainFragmentPresenter.checkSensor(azimuth);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

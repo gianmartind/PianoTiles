@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ public class MainFragmentPresenter {
     Paint transparent;
     ThreadHandler threadHandler;
     LinkedList<MainThread> threads;
+    LinkedList<SensorThread> sensorThreads;
     PlayThread playThread;
     PointF viewSize;
     float endPointY;
@@ -36,6 +39,7 @@ public class MainFragmentPresenter {
         this.ui = ui;
         this.threadHandler = new ThreadHandler(this);
         this.threads = new LinkedList<>();
+        this.sensorThreads = new LinkedList<>();
         this.toast = toast;
         /*
         this.toastCountDown = new CountDownTimer(500, 1000 ) {
@@ -88,19 +92,27 @@ public class MainFragmentPresenter {
         this.ui.updateCanvas(this.canvas);
     }
 
-    public void generate(int pos){
+    public void generate(int pos) throws InterruptedException {
         if(pos < 5){
             MainThread newThread = new MainThread(this.threadHandler, pos, this.viewSize);
             newThread.start();
             this.threads.addLast(newThread);
         }
         else if(pos == 5){
-            this.toast.setText("Tilt Left");
+            this.toast.setText("Tilt Left!");
+            SensorThread sensorThread = new SensorThread(this.threadHandler, true);
+            sensorThread.start();
+            this.sensorThreads.addLast(sensorThread);
             this.toast.show();
+            this.ui.registerSensor();
         }
         else if(pos == 6){
-            this.toast.setText("Tilt Right");
+            this.toast.setText("Tilt Right!");
+            SensorThread sensorThread = new SensorThread(this.threadHandler, false);
+            sensorThread.start();
+            this.sensorThreads.addLast(sensorThread);
             this.toast.show();
+            this.ui.registerSensor();
         }
     }
 
@@ -114,6 +126,12 @@ public class MainFragmentPresenter {
         }
     }
 
+    public void checkSensor(float azimuth){
+        for(int i = 0; i < this.sensorThreads.size(); i++){
+            this.sensorThreads.get(i).changeAzimuth(azimuth);
+        }
+    }
+
     public void popOut(){
         //Log.d("TAG", "popOut: " + this.threads.size() + " " + this.inc);
         this.threads.removeFirst();
@@ -124,7 +142,12 @@ public class MainFragmentPresenter {
         //this.toast.setText(Integer.toString(this.score));
         //this.toast.show();
         //this.toastCountDown.start();
-        this.ui.updateScore(score);
+        this.ui.updateScore(this.score);
+    }
+
+    public void addSensorScore(){
+        this.score++;
+        this.ui.updateScore(this.score);
     }
 
     public void removeHealth(){
@@ -132,6 +155,7 @@ public class MainFragmentPresenter {
         if(this.health == 0){
             this.playThread.stopThread();
             this.ui.gameOver(this.score);
+            this.ui.unregisterSensor();
         }
         this.ui.updateHealth(this.health);
     }
@@ -142,5 +166,7 @@ public class MainFragmentPresenter {
         void updateScore(int score);
         void updateHealth(int health);
         void gameOver(int score);
+        void registerSensor();
+        void unregisterSensor();
     }
 }

@@ -90,7 +90,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public List<Score> getHighScore(int limit){
         List<Score> scoreList = new ArrayList<Score>();
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_SCORE + " ORDER BY " + KEY_SCORE + " LIMIT " + limit ;
+        String selectQuery = "SELECT * FROM " + TABLE_SCORE + " ORDER BY " + KEY_SCORE + " DESC " + " LIMIT " + limit ;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

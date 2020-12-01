@@ -13,6 +13,7 @@ public class ThreadHandler extends Handler {
     protected final static int POP_OUT = 4;
     protected final static int GENERATE = 5;
     protected final static int REMOVE_HEALTH = 6;
+    protected final static int ADD_SENSOR_SCORE = 7;
 
     protected MainFragmentPresenter mainFragmentPresenter;
 
@@ -34,9 +35,15 @@ public class ThreadHandler extends Handler {
             this.mainFragmentPresenter.popOut();
         } else if(msg.what == ThreadHandler.GENERATE){
             int param = (int) msg.obj;
-            this.mainFragmentPresenter.generate(param);
+            try {
+                this.mainFragmentPresenter.generate(param);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } else if(msg.what == ThreadHandler.REMOVE_HEALTH){
             this.mainFragmentPresenter.removeHealth();
+        } else if(msg.what == ThreadHandler.ADD_SENSOR_SCORE){
+            this.mainFragmentPresenter.addSensorScore();
         }
     }
 
@@ -58,6 +65,12 @@ public class ThreadHandler extends Handler {
     public void addScore(){
         Message msg = new Message();
         msg.what = ThreadHandler.ADD_SCORE;
+        this.sendMessage(msg);
+    }
+
+    public void addSensorScore(){
+        Message msg = new Message();
+        msg.what = ThreadHandler.ADD_SENSOR_SCORE;
         this.sendMessage(msg);
     }
 
