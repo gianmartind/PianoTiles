@@ -13,6 +13,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.pianotiles.SettingsPrefSaver;
 import com.example.pianotiles.view.CustomToast;
 
 import java.util.LinkedList;
@@ -32,26 +33,17 @@ public class MainFragmentPresenter {
     float endPointX;
     int score;
     int health;
+    SettingsPrefSaver settingsPrefSaver;
     //CountDownTimer toastCountDown;
     CustomToast toast;
 
-    public MainFragmentPresenter(IMainFragment ui, CustomToast toast){
+    public MainFragmentPresenter(IMainFragment ui, CustomToast toast, SettingsPrefSaver settingsPrefSaver){
         this.ui = ui;
         this.threadHandler = new ThreadHandler(this);
         this.threads = new LinkedList<>();
         this.sensorThreads = new LinkedList<>();
         this.toast = toast;
-        /*
-        this.toastCountDown = new CountDownTimer(500, 1000 ) {
-            public void onTick(long millisUntilFinished) {
-                toast.show();
-            }
-
-            public void onFinish() {
-                toast.cancel();
-            }
-        };
-        */
+        this.settingsPrefSaver = settingsPrefSaver;
     }
 
     public void initiateCanvas(ImageView ivCanvas){
@@ -71,7 +63,7 @@ public class MainFragmentPresenter {
         this.score = 0;
         this.ui.updateScore(this.score);
 
-        this.health = 3;
+        this.health = this.settingsPrefSaver.getKeyHealth();
         this.ui.updateHealth(this.health);
 
         this.playThread = new PlayThread(new PointF(ivCanvas.getWidth(), ivCanvas.getHeight()), this.threadHandler);
@@ -136,8 +128,9 @@ public class MainFragmentPresenter {
         this.threads.removeFirst();
     }
 
-    public void addScore(){
+    public void addScore(int pos){
         this.score++;
+        this.ui.playNotes(pos);
         //this.toast.setText(Integer.toString(this.score));
         //this.toast.show();
         //this.toastCountDown.start();
@@ -168,5 +161,6 @@ public class MainFragmentPresenter {
         void gameOver(int score);
         void registerSensor();
         void unregisterSensor();
+        void playNotes(int pos);
     }
 }

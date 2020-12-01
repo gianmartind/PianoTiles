@@ -53,7 +53,7 @@ public class MainThread extends Thread{
         if(this.isClicked) return;
         if(tap.x >= this.start.x && tap.x <= this.start.x + this.viewSize.x/4){
             if(tap.y >= this.start.y && tap.y <= this.start.y + this.viewSize.y/4){
-                this.threadHandler.addScore();
+                this.threadHandler.addScore(this.pos);
                 this.threadHandler.clearRect(new PointF(this.start.x, this.start.y));
                 this.isClicked = true;
             }

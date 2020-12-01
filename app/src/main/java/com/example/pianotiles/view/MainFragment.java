@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pianotiles.FragmentListener;
 import com.example.pianotiles.R;
+import com.example.pianotiles.SettingsPrefSaver;
 import com.example.pianotiles.presenter.MainFragmentPresenter;
 
 public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener, SensorEventListener {
@@ -35,11 +37,12 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     Bitmap bitmap;
     Button score, health;
     Boolean initiated;
+    SettingsPrefSaver settingsPrefSaver;
     CustomToast toast;
     SensorManager sensorManager;
     Sensor accelerometer, magnetometer;
     float[] accelerometerReading, magnetometerReading;
-
+    MediaPlayer pianoA, pianoB, pianoC, pianoD;
     public MainFragment(){}
 
     @Nullable
@@ -53,11 +56,12 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         this.score = view.findViewById(R.id.score);
         this.health = view.findViewById(R.id.health);
 
+        this.settingsPrefSaver = new SettingsPrefSaver(this.getActivity());
         this.startButton.setOnClickListener(this);
         this.health.setOnClickListener(this);
 
         this.ivCanvas.setOnTouchListener(this);
-        this.mainFragmentPresenter = new MainFragmentPresenter(this, this.toast);
+        this.mainFragmentPresenter = new MainFragmentPresenter(this, this.toast, this.settingsPrefSaver);
 
         this.initiated = false;
 
@@ -67,6 +71,11 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
 
         this.accelerometerReading = new float[3];
         this.magnetometerReading = new float[3];
+
+        this.pianoA = MediaPlayer.create(getActivity(),R.raw.piano_a);
+        this.pianoB = MediaPlayer.create(getActivity(),R.raw.piano_b);
+        this.pianoC = MediaPlayer.create(getActivity(),R.raw.piano_c);
+        this.pianoD = MediaPlayer.create(getActivity(),R.raw.piano_d);
         return view;
     }
 
@@ -126,6 +135,23 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     }
 
     @Override
+    public void playNotes(int pos) {
+        if(pos == 1){
+            this.pianoA.start();
+            //this.pianoA.release();
+        } else if(pos == 2){
+            this.pianoB.start();
+            //this.pianoB.release();
+        } else if(pos == 3){
+            this.pianoC.start();
+            //this.pianoC.release();
+        } else if(pos == 4){
+            this.pianoD.start();
+            //this.pianoD.release();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         if(v == this.startButton){
             if(!this.initiated){
@@ -136,9 +162,9 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
                 this.initiated = true;
             }
         } else if(v == this.health){
-            this.mainFragmentPresenter.removeHealth();
-            this.mainFragmentPresenter.removeHealth();
-            this.mainFragmentPresenter.removeHealth();
+            for(int i = 0; i < this.settingsPrefSaver.getKeyHealth(); i++){
+                this.mainFragmentPresenter.removeHealth();
+            }
         }
     }
 

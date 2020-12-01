@@ -30,7 +30,8 @@ public class ThreadHandler extends Handler {
             PointF param = (PointF) msg.obj;
             this.mainFragmentPresenter.clearRect(param);
         } else if(msg.what == ThreadHandler.ADD_SCORE){
-            this.mainFragmentPresenter.addScore();
+            int param = (int) msg.obj;
+            this.mainFragmentPresenter.addScore(param);
         } else if(msg.what == ThreadHandler.POP_OUT){
             this.mainFragmentPresenter.popOut();
         } else if(msg.what == ThreadHandler.GENERATE){
@@ -62,9 +63,10 @@ public class ThreadHandler extends Handler {
         this.sendMessage(msg);
     }
 
-    public void addScore(){
+    public void addScore(int pos){
         Message msg = new Message();
         msg.what = ThreadHandler.ADD_SCORE;
+        msg.obj = (int) pos;
         this.sendMessage(msg);
     }
 
