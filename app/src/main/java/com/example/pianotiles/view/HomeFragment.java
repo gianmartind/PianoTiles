@@ -1,6 +1,7 @@
 package com.example.pianotiles.view;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.startGame.setOnClickListener(this);
         this.highScore.setOnClickListener(this);
 
+        MediaPlayer song = MediaPlayer.create(getActivity(),R.raw.canon);
+        song.start();
         return view;
     }
 
