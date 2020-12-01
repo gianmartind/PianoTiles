@@ -10,27 +10,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/gameover"
-        android:textSize="70sp"/>
+        android:textSize="60sp"
+        android:fontFamily="@font/righteous"
+        android:textColor="@color/black"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="20dp"/>
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/score"
+        android:textSize="25sp"
+        android:fontFamily="@font/montserrat"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/score"
-            android:textSize="25sp"/>
+            android:fontFamily="@font/montserrat"
+            android:text="@string/enter_name"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/player_name"
+            android:hint="@string/name_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat"/>
 
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="60dp"/>
@@ -41,18 +62,26 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <android.widget.Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:layout_margin="10px"
             android:id="@+id/play_again"
-            android:text="@string/playagain"/>
+            android:text="@string/playagain"
+            android:background="@drawable/custom_button"
+            android:backgroundTint="@color/darkBlue"
+            android:textColor="@color/white"
+            android:fontFamily="@font/fredoka_one"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <android.widget.Button
+            android:layout_width="130dp"
+            android:layout_height="50dp"
             android:layout_margin="10px"
             android:id="@+id/back_menu"
-            android:text="@string/backmenu"/>
+            android:text="@string/backmenu"
+            android:background="@drawable/custom_button"
+            android:backgroundTint="@color/darkRed"
+            android:textColor="@color/white"
+            android:fontFamily="@font/fredoka_one"/>
     </LinearLayout>
 </LinearLayout>

@@ -11,18 +11,29 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="60sp"
+        android:fontFamily="@font/righteous"
+        android:textColor="@color/black"
         android:text="@string/fragment_home"/>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_start"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_home"/>
+        android:layout_height="50dp"
+        android:text="@string/btn_home"
+        android:background="@drawable/custom_button"
+        android:layout_margin="10px"
+        android:backgroundTint="@color/darkBlue"
+        android:fontFamily="@font/fredoka_one"
+        android:textColor="@color/white"/>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/btn_high_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/high_score"/>
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:text="@string/high_score"
+        android:layout_margin="10px"
+        android:background="@drawable/custom_button_dark"
+        android:backgroundTint="@color/lightBlue"
+        android:fontFamily="@font/fredoka_one"/>
 
 </LinearLayout>

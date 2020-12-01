@@ -3,16 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background">
 
     <android.widget.Button
         android:id="@+id/start_btn"
         android:layout_width="200dp"
         android:layout_height="70dp"
+        android:textSize="40sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/custom_button"
-        android:text="@string/start" />
+        android:background="@drawable/start_button"
+        android:text="@string/start"
+        android:textColor="@color/darkBlue"
+        android:fontFamily="@font/fredoka_one"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,29 +24,64 @@
         android:gravity="center"
         android:elevation="1dp">
 
-        <TextView
+        <android.widget.Button
             android:id="@+id/score"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20px"
-            android:background="@color/lightBlue"
+            android:layout_weight="1"
+            android:layout_margin="10px"
             android:padding="10px"
             android:textColor="@color/black"
             android:textSize="30sp"
+            android:textAlignment="center"
             android:visibility="invisible"
-            android:textAlignment="center"/>
+            android:background="@drawable/custom_button"
+            android:backgroundTint="@color/lightBlue"
+            android:fontFamily="@font/fredoka_one"/>
 
-        <TextView
+        <android.widget.Button
             android:id="@+id/health"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20px"
-            android:background="@color/lightBlue"
+            android:layout_margin="10px"
             android:padding="10px"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="30sp"
+            android:textAlignment="center"
             android:visibility="invisible"
-            android:textAlignment="center"/>
+            android:background="@drawable/custom_button"
+            android:backgroundTint="@color/darkRed"
+            android:fontFamily="@font/fredoka_one"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bordered_view"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bordered_view"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bordered_view"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bordered_view"/>
 
     </LinearLayout>
 

@@ -10,4 +10,7 @@
     <string name="playagain">Play Again</string>
     <string name="backmenu">Back to Menu</string>
     <string name="start">START</string>
+    <string name="name_hint">player name</string>
+    <string name="save">SAVE</string>
+    <string name="enter_name">Enter your name</string>
 </resources>
