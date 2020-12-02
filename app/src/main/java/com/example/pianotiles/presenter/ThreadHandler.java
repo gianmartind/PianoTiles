@@ -14,6 +14,7 @@ public class ThreadHandler extends Handler {
     protected final static int GENERATE = 5;
     protected final static int REMOVE_HEALTH = 6;
     protected final static int ADD_SENSOR_SCORE = 7;
+    protected final static int POP_SENSOR_OUT = 8;
 
     protected MainFragmentPresenter mainFragmentPresenter;
 
@@ -45,6 +46,8 @@ public class ThreadHandler extends Handler {
             this.mainFragmentPresenter.removeHealth();
         } else if(msg.what == ThreadHandler.ADD_SENSOR_SCORE){
             this.mainFragmentPresenter.addSensorScore();
+        } else if(msg.what == ThreadHandler.POP_SENSOR_OUT){
+            this.mainFragmentPresenter.popSensorOut();
         }
     }
 
@@ -85,6 +88,12 @@ public class ThreadHandler extends Handler {
     public void popOut(){
         Message msg = new Message();
         msg.what = ThreadHandler.POP_OUT;
+        this.sendMessage(msg);
+    }
+
+    public void popSensorOut(){
+        Message msg = new Message();
+        msg.what = ThreadHandler.POP_SENSOR_OUT;
         this.sendMessage(msg);
     }
 

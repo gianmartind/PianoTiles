@@ -8,7 +8,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +31,7 @@ import com.example.pianotiles.R;
 import com.example.pianotiles.SettingsPrefSaver;
 import com.example.pianotiles.presenter.MainFragmentPresenter;
 
-public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener, SensorEventListener {
+public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener, SensorEventListener, MediaPlayer.OnCompletionListener {
     FragmentListener fragmentListener;
     MainFragmentPresenter mainFragmentPresenter;
     Button startButton;
@@ -42,7 +45,8 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     SensorManager sensorManager;
     Sensor accelerometer, magnetometer;
     float[] accelerometerReading, magnetometerReading;
-    MediaPlayer pianoA, pianoB, pianoC, pianoD;
+    SoundPool soundPool;
+    int pianoA, pianoB, pianoC, pianoD;
     public MainFragment(){}
 
     @Nullable
@@ -71,11 +75,12 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
 
         this.accelerometerReading = new float[3];
         this.magnetometerReading = new float[3];
+        this.soundPool = new SoundPool.Builder().setMaxStreams(10).build();
+        this.pianoA = this.soundPool.load(this.getActivity(), R.raw.piano_a, 1);
+        this.pianoB = this.soundPool.load(this.getActivity(), R.raw.piano_b, 1);
+        this.pianoC = this.soundPool.load(this.getActivity(), R.raw.piano_c, 1);
+        this.pianoD = this.soundPool.load(this.getActivity(), R.raw.piano_d, 1);
 
-        this.pianoA = MediaPlayer.create(getActivity(),R.raw.piano_a);
-        this.pianoB = MediaPlayer.create(getActivity(),R.raw.piano_b);
-        this.pianoC = MediaPlayer.create(getActivity(),R.raw.piano_c);
-        this.pianoD = MediaPlayer.create(getActivity(),R.raw.piano_d);
         return view;
     }
 
@@ -137,16 +142,16 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     @Override
     public void playNotes(int pos) {
         if(pos == 1){
-            this.pianoA.start();
+            this.soundPool.play(this.pianoA, 1, 1, 1, 0, 1f);
             //this.pianoA.release();
         } else if(pos == 2){
-            this.pianoB.start();
+            this.soundPool.play(this.pianoB, 1, 1, 1, 0, 1f);
             //this.pianoB.release();
         } else if(pos == 3){
-            this.pianoC.start();
+            this.soundPool.play(this.pianoC, 1, 1, 1, 0, 1f);
             //this.pianoC.release();
         } else if(pos == 4){
-            this.pianoD.start();
+            this.soundPool.play(this.pianoD, 1, 1, 1, 0, 1f);
             //this.pianoD.release();
         }
     }
@@ -170,7 +175,9 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        this.mainFragmentPresenter.checkScore(new PointF(event.getX(), event.getY()));
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            this.mainFragmentPresenter.checkScore(new PointF(event.getX(), event.getY()));
+        }
         return true;
     }
 
@@ -192,14 +199,23 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
         final float[] orientationAngles = new float[3];
         this.sensorManager.getOrientation(rotationMatrix, orientationAngles);
 
-        float azimuth = orientationAngles[0];
+        //float azimuth = orientationAngles[0];
         //float pitch = orientationAngles[1];
-        //float roll = orientationAngles[2];
-        this.mainFragmentPresenter.checkSensor(azimuth);
+        float roll = orientationAngles[2];
+        if(roll > 0.8f || roll < -0.8f){
+            this.mainFragmentPresenter.checkSensor(roll);
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        mp.stop();
+        mp.release();
+        mp = null;
     }
 }

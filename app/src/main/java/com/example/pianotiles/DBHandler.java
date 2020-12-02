@@ -110,27 +110,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return scoreList;
     }
 
-    public int updateRecord(Score item) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_SCORE, item.getScore());
-        values.put(KEY_NAME, item.getName());
-        values.put(KEY_DATETIME, item.getDatetime());
-
-        // updating row
-        return db.update(TABLE_SCORE, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(item.getId()) });
-    }
-
-    public void deleteRecord(Score item) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_SCORE, KEY_ID + " = ?",
-                new String[] { String.valueOf(item.getId()) });
-        db.close();
-    }
-
-    public int getFoodCount() {
+    public int getScoreCount() {
         String countQuery = "SELECT * FROM " + TABLE_SCORE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);

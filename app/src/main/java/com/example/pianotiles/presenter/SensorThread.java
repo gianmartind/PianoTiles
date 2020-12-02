@@ -2,19 +2,19 @@ package com.example.pianotiles.presenter;
 
 public class SensorThread extends Thread{
     protected ThreadHandler threadHandler;
-    float azimuth;
+    float roll;
     int counter;
     boolean isLeft;
 
     public SensorThread(ThreadHandler threadHandler, boolean isLeft){
         this.threadHandler = threadHandler;
         this.isLeft = isLeft;
-        this.azimuth = 0;
+        this.roll = 0;
         this.counter = 0;
     }
 
-    public void changeAzimuth(float azimuth){
-        this.azimuth = azimuth;
+    public void changeRoll(float roll){
+        this.roll = roll;
     }
 
     public void run(){
@@ -29,17 +29,17 @@ public class SensorThread extends Thread{
                 e.printStackTrace();
             }
         }
-        this.threadHandler.removeHealth();
+        this.threadHandler.popSensorOut();
         return;
     }
 
     public boolean checkValid(){
         if(this.isLeft){
-            if(azimuth < -0.6f){
+            if(this.roll < -0.8f){
                 return true;
             }
         } else if(!this.isLeft){
-            if(this.azimuth > 0.6f){
+            if(this.roll > 0.8f){
                 return true;
             }
         }

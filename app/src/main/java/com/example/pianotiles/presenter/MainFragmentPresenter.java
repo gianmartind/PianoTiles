@@ -117,15 +117,20 @@ public class MainFragmentPresenter {
         }
     }
 
-    public void checkSensor(float azimuth){
+    public void checkSensor(float roll){
         for(int i = 0; i < this.sensorThreads.size(); i++){
-            this.sensorThreads.get(i).changeAzimuth(azimuth);
+            this.sensorThreads.get(i).changeRoll(roll);
         }
     }
 
     public void popOut(){
         //Log.d("TAG", "popOut: " + this.threads.size() + " " + this.inc);
         this.threads.removeFirst();
+    }
+
+    public void popSensorOut(){
+        //Log.d("TAG", "popSensorOut: " + this.sensorThreads.size() + " " + this.inc);
+        this.sensorThreads.removeFirst();
     }
 
     public void addScore(int pos){

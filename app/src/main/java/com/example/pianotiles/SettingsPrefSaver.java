@@ -19,6 +19,6 @@ public class SettingsPrefSaver {
     }
 
     public int getKeyHealth(){
-        return this.sharedPreferences.getInt(KEY_HEALTH, 4);
+        return this.sharedPreferences.getInt(KEY_HEALTH, 3);
     }
 }

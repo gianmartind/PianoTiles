@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     GameoverFragment gameoverFragment;
     HomeFragment homeFragment;
     HighScoreFragment highScoreFragment;
+    SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         this.mainFragment = new MainFragment();
         this.gameoverFragment = GameoverFragment.newInstance(0);
         this.highScoreFragment = new HighScoreFragment();
+        this.settingsFragment = new SettingsFragment();
 
         changePage(0);
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             ft.replace(R.id.fragment_container, this.gameoverFragment).addToBackStack(null);
         } else if(i == 3){
             ft.replace(R.id.fragment_container, this.highScoreFragment).addToBackStack(null);
+        } else if(i == 4){
+            ft.replace(R.id.fragment_container, this.settingsFragment).addToBackStack(null);
         }
         ft.commit();
     }
