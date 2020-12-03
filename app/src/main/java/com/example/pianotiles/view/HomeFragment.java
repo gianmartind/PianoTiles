@@ -17,7 +17,7 @@ import com.example.pianotiles.FragmentListener;
 import com.example.pianotiles.R;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    Button startGame, highScore, settings;
+    Button startGame, highScore, settings, exit;
     CustomToast toast;
     FragmentListener fragmentListener;
     MediaPlayer song;
@@ -33,10 +33,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.startGame = view.findViewById(R.id.btn_start);
         this.highScore = view.findViewById(R.id.btn_high_score);
         this.settings = view.findViewById(R.id.btn_settings);
+        this.exit = view.findViewById(R.id.btn_exit);
 
         this.startGame.setOnClickListener(this);
         this.highScore.setOnClickListener(this);
         this.settings.setOnClickListener(this);
+        this.exit.setOnClickListener(this);
 
         this.song = MediaPlayer.create(getActivity(),R.raw.canon);
 
@@ -73,6 +75,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             this.fragmentListener.changePage(3);
         } else if(v == this.settings){
             this.fragmentListener.changePage(4);
+        } else if(v == this.exit){
+            this.fragmentListener.closeApplication();
         }
     }
 }

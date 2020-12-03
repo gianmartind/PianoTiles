@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
     @Override
     public void closeApplication() {
-
+        this.moveTaskToBack(true);
+        this.finish();
     }
-
 }
