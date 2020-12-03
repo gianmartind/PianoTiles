@@ -31,7 +31,7 @@ import com.example.pianotiles.R;
 import com.example.pianotiles.SettingsPrefSaver;
 import com.example.pianotiles.presenter.MainFragmentPresenter;
 
-public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener, SensorEventListener, MediaPlayer.OnCompletionListener {
+public class MainFragment extends Fragment implements MainFragmentPresenter.IMainFragment, View.OnClickListener, View.OnTouchListener, SensorEventListener {
     FragmentListener fragmentListener;
     MainFragmentPresenter mainFragmentPresenter;
     Button startButton;
@@ -140,6 +140,12 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        this.sensorManager.unregisterListener(this);
+    }
+
+    @Override
     public void playNotes(int pos) {
         if(pos == 1){
             this.soundPool.play(this.pianoA, 1, 1, 1, 0, 1f);
@@ -210,12 +216,5 @@ public class MainFragment extends Fragment implements MainFragmentPresenter.IMai
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        mp.stop();
-        mp.release();
-        mp = null;
     }
 }
